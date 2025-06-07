@@ -22,10 +22,6 @@ on:
 jobs:
   version-and-publish:
     runs-on: ubuntu-latest
-    permissions:
-      actions: "read"
-      contents: write
-      packages: write
 
     steps:
       - uses: actions/checkout@v4
