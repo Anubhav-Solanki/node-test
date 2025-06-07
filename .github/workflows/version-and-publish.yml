@@ -18,13 +18,9 @@ on:
           - patch
           - minor
           - major
-          
-permissions:
-  contents: write
 
 jobs:
   version-and-publish:
-    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
 
     steps:
@@ -57,8 +53,8 @@ jobs:
       - name: Commit bumped version
         uses: EndBug/add-and-commit@v9
         with:
-          author_name: leanix-ci
-          author_email: leanix-ci@users.noreply.github.com
+          author_name: anubahv-solanki
+          author_email: anubhav.solanki@leanix.net
           message: "Bump ${{ inputs.version-type }} version"
 
       - name: Publish Library to private NPM

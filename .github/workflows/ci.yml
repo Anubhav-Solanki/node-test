@@ -49,8 +49,6 @@ jobs:
   version-and-publish:
     name: Version and Publish
     if: github.ref == 'refs/heads/main'
-    needs:
-      - build
     uses: ./.github/workflows/version-and-publish.yml
     with:
       version-type: patch 
