@@ -19,8 +19,7 @@ on:
           - minor
           - major
           
-permissions:
-  contents: write
+
 
 jobs:
   version-and-publish:
