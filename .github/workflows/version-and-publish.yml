@@ -56,6 +56,7 @@ jobs:
           author_name: anubahv-solanki
           author_email: anubhav.solanki@leanix.net
           message: "Bump ${{ inputs.version-type }} version"
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Publish Library to private NPM
         uses: JS-DevTools/npm-publish@v1
