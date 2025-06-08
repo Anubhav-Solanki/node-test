@@ -53,7 +53,7 @@ jobs:
       - name: Commit bumped version
         uses: EndBug/add-and-commit@v9
         with:
-          author_name: anubahv-solanki
+          author_name: anubhav-solanki
           author_email: anubhav.solanki@leanix.net
           message: "Bump ${{ inputs.version-type }} version"
           token: ${{ secrets.GITHUB_TOKEN }}
