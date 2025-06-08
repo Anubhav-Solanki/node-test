@@ -1,5 +1,5 @@
 {
-  "name": "node-test-app",
+  "name": "@node-test/node-test-app",
   "version": "1.0.1",
   "description": "",
   "main": "dist/app.js",
