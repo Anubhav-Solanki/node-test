@@ -53,16 +53,9 @@ jobs:
       - name: Commit bumped version
         uses: EndBug/add-and-commit@v9
         with:
-          author_name: anubhav-solanki
+          author_name: Anubhav-Solanki
           author_email: anubhav.solanki@leanix.net
           message: "Bump ${{ inputs.version-type }} version"
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Publish Library to private NPM
-        uses: JS-DevTools/npm-publish@v1
-        with:
-          registry: https://npm.pkg.github.com
-          package: 'package.json'
-          token: ${{ secrets.GITHUB_TOKEN }}
-          check-version: true
-          access: restricted
+      

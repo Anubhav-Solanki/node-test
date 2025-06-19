@@ -51,5 +51,6 @@ jobs:
     if: github.ref == 'refs/heads/main'
     uses: ./.github/workflows/version-and-publish.yml
     with:
-      version-type: patch 
+      version-type: patch
+    secrets: inherit
   
