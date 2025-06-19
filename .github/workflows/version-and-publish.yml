@@ -50,12 +50,14 @@ jobs:
       - name: Bump version
         run: npm version ${{ inputs.version-type }} --no-git-tag-version
 
-      - name: Commit bumped version
-        uses: EndBug/add-and-commit@v9
-        with:
-          author_name: Anubhav-Solanki
-          author_email: anubhav.solanki@leanix.net
-          message: "Bump ${{ inputs.version-type }} version"
-          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Test flow
+        run: |
+          git checkout -b bump-version
+          git commit -am "Bump version for ${{ inputs.version-type }} release"
+          gh pr create --title "Bump version for ${{ inputs.version-type }} release" --body "This PR bumps the version for a ${{ inputs.version-type }} release." --base main --head bump-version
+          gh pr merge --auto --squash --delete-branch
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
 
       
