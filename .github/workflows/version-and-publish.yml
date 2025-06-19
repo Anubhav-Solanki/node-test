@@ -55,7 +55,9 @@ jobs:
           git config user.name ${{ github.actor }}
           git config user.email '${{ github.actor }}@users.noreply.github.com'
           git checkout -b bump-version
+          git add .
           git commit -am "Bump version for ${{ inputs.version-type }} release"
+          git push origin bump-version
           gh pr create --title "Bump version for ${{ inputs.version-type }} release" --body "This PR bumps the version for a ${{ inputs.version-type }} release." --base main --head bump-version
           gh pr merge --auto --squash --delete-branch
         env:
