@@ -52,6 +52,8 @@ jobs:
 
       - name: Test flow
         run: |
+          git config user.name ${{ github.actor }}
+          git config user.email '${{ github.actor }}@users.noreply.github.com'
           git checkout -b bump-version
           git commit -am "Bump version for ${{ inputs.version-type }} release"
           gh pr create --title "Bump version for ${{ inputs.version-type }} release" --body "This PR bumps the version for a ${{ inputs.version-type }} release." --base main --head bump-version
