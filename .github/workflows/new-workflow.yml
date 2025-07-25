@@ -1,0 +1,61 @@
+name: Update @leanix/catalog-shared
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version of @leanix/catalog-shared to install"
+        required: false
+        default: "latest"
+
+jobs:
+  update-dependency:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+
+      - name: Install @leanix/catalog-shared@${{ github.event.inputs.version || 'latest' }}
+        run: npm install express@${{ github.event.inputs.version || 'latest' }}
+
+      - name: Create and switch to new branch
+        run: |
+          BRANCH="update-leanix-catalog-shared-$(date +%s)"
+          echo "BRANCH_NAME=$BRANCH" >> $GITHUB_ENV
+          git checkout -b $BRANCH
+
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add package.json package-lock.json
+          git commit -m "chore: update @leanix/catalog-shared to ${{ github.event.inputs.version || 'latest' }}"
+          git push origin $BRANCH_NAME
+
+      - name: Create PR using gh
+        run: |
+          gh pr create \
+            --title "chore: update @leanix/catalog-shared to ${{ github.event.inputs.version || 'latest' }}" \
+            --body "This PR updates \`@leanix/catalog-shared\` to \`${{ github.event.inputs.version || 'latest' }}\`." \
+            --head $BRANCH_NAME \
+            --base main
+
+      - name: Auto-approve PR
+        run: gh pr review ${{ steps.create_pr.outputs.pull-request-url }} --approve
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Merge PR
+        run: gh pr merge ${{ steps.create_pr.outputs.pull-request-url }} --merge --delete-branch
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
