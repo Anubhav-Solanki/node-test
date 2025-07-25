@@ -49,6 +49,8 @@ jobs:
             --body "This PR updates \`@leanix/catalog-shared\` to \`${{ github.event.inputs.version || 'latest' }}\`." \
             --head $BRANCH_NAME \
             --base main
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Auto-approve PR
         run: gh pr review ${{ steps.create_pr.outputs.pull-request-url }} --approve
