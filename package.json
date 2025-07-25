@@ -16,5 +16,8 @@
     "@tsconfig/recommended": "^1.0.8",
     "ts-jest": "^29.3.4",
     "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "express": "^5.1.0"
   }
 }
