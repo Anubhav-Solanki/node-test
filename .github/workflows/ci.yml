@@ -11,7 +11,7 @@ on:
 env:
   ACTION_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
   JOBS_NODE_VERSION: v22
-  VERSION_TYPES: '["patch"]'
+  VERSION_TYPE: "patch"
 
 jobs:
   build:
@@ -48,12 +48,9 @@ jobs:
         run: npm run build
 
   version-and-publish:
-    strategy:
-      matrix:
-        version: ${{ fromJson(env.VERSION_TYPES) }}
     name: Version and Publish
     if: github.ref == 'refs/heads/main'
     uses: ./.github/workflows/version-and-publish.yml
     with:
-      version-type: ${{ matrix.version }}
+      version-type: ${{ env.VERSION_TYPE }}
     secrets: inherit
