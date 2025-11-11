@@ -11,15 +11,8 @@ on:
 env:
   ACTION_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
   JOBS_NODE_VERSION: v22
-  VERSION_TYPE: patch
 
 jobs:
-  setup-env:
-    name: Setup Environment
-    runs-on: ubuntu-latest
-    outputs:
-      version-type: ${{ env.VERSION_TYPE }}
-
   build:
     name: Build
     runs-on: ubuntu-latest
@@ -38,6 +31,9 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.JOBS_NODE_VERSION }}
+
+      - name: echo version type
+        run: echo "Version type is ${{ vars.VERSION_TYPE }}"
 
       - name: Cache node modules
         uses: actions/cache@v4
@@ -59,5 +55,5 @@ jobs:
     if: github.ref == 'refs/heads/main'
     uses: ./.github/workflows/version-and-publish.yml
     with:
-      version-type: ${{ needs.setup-env.outputs.version-type }}
+      version-type: ${{ vars.VERSION_TYPE }}
     secrets: inherit
