@@ -51,7 +51,6 @@ jobs:
 
   version-and-publish:
     name: Version and Publish
-    needs: setup-env
     if: github.ref == 'refs/heads/main'
     uses: ./.github/workflows/version-and-publish.yml
     with:
