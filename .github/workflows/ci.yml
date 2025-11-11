@@ -14,16 +14,6 @@ env:
   VERSION_TYPE: patch
 
 jobs:
-  env:
-    name: Set Environment Variables
-    runs-on: ubuntu-latest
-    outputs:
-      VERSION_TYPE: ${{ steps.set-vars.outputs.VERSION_TYPE }}
-    steps:
-      - name: Set VERSION_TYPE
-        id: set-vars
-        run: |
-          echo "VERSION_TYPE=${{ github.event.inputs.version-type || 'patch' }}" >> $GITHUB_OUTPUT
   build:
     name: Build
     runs-on: ubuntu-latest
@@ -59,9 +49,8 @@ jobs:
 
   version-and-publish:
     name: Version and Publish
-    needs: [env]
     if: github.ref == 'refs/heads/main'
     uses: ./.github/workflows/version-and-publish.yml
     with:
-      version-type: ${{ jobs.env.outputs.VERSION_TYPE }}
+      version-type: ${{ secrets.VERSION_TYPE }}
     secrets: inherit
