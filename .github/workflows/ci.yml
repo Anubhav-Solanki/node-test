@@ -11,6 +11,7 @@ on:
 env:
   ACTION_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
   JOBS_NODE_VERSION: v22
+  VERSION_TYPE: patch
 
 jobs:
   build:
@@ -20,6 +21,8 @@ jobs:
       actions: "read"
       contents: write
       packages: write
+    outputs:
+      version-type: ${{ env.VERSION_TYPE }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -51,5 +54,5 @@ jobs:
     if: github.ref == 'refs/heads/main'
     uses: ./.github/workflows/version-and-publish.yml
     with:
-      version-type: patch
+      version-type: ${{ needs.build.outputs.version-type }}
     secrets: inherit
