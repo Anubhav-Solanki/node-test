@@ -14,6 +14,12 @@ env:
   VERSION_TYPE: patch
 
 jobs:
+  setup-env:
+    name: Setup Environment
+    runs-on: ubuntu-latest
+    outputs:
+      version-type: ${{ env.VERSION_TYPE }}
+
   build:
     name: Build
     runs-on: ubuntu-latest
@@ -21,8 +27,6 @@ jobs:
       actions: "read"
       contents: write
       packages: write
-    outputs:
-      version-type: ${{ env.VERSION_TYPE }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -51,9 +55,9 @@ jobs:
 
   version-and-publish:
     name: Version and Publish
-    needs: build
+    needs: setup-env
     if: github.ref == 'refs/heads/main'
     uses: ./.github/workflows/version-and-publish.yml
     with:
-      version-type: ${{ needs.build.outputs.version-type }}
+      version-type: ${{ needs.setup-env.outputs.version-type }}
     secrets: inherit
