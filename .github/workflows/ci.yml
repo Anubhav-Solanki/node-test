@@ -49,7 +49,22 @@ jobs:
       - name: Build
         run: npm run build
 
+  delayed-start:
+    name: Delayed Start
+    runs-on: ubuntu-latest
+    outputs:
+      delay-complete: ${{ steps.delay.outputs.delay-complete }}
+    steps:
+      - name: Wait for required status checks
+        uses: lewagon/wait-on-check-action@v1.3.4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          check-name: "renovate/stability-days"
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          wait-interval: 30
+
   version-and-publish:
+    needs: delayed-start
     name: Version and Publish
     if: github.ref == 'refs/heads/main'
     uses: ./.github/workflows/version-and-publish.yml
